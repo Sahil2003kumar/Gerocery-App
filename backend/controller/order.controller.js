@@ -1,6 +1,6 @@
 import Order from "../models/order.model.js";
 import Product from "../models/product.model.js";
-
+import stripe from 'stripe'
 // Place order COD: /api/order/place
 export const placeOrderCOD = async (req, res) => {
   try {
@@ -34,6 +34,70 @@ export const placeOrderCOD = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+// Place order Stripe: /api/order/stripe
+export const placeOrderStripe = async (req, res) => {
+  try {
+    const userId = req.user;
+    const { items, address } = req.body;
+    const {origin} = req.headers;
+    if (!address || !items || items.length === 0) {
+      return res
+        .status(400)
+        .json({ message: "Invalid order details", success: false });
+    }
+
+    let productData = [];
+    // calculate amount using items;
+    let amount = await items.reduce(async (acc, item) => {
+      const product = await Product.findById(item.product);
+
+      //push in the arr of product data
+      productData.push({
+        name:product.name,
+        price:product.offerPrice,
+        quantity:item.quantity
+      })
+      return (await acc) + product.offerPrice * item.quantity;
+    }, 0);
+
+    // Add tex charfe 2%
+    amount += Math.floor((amount * 2) / 100);
+    await Order.create({
+      userId,
+      items,
+      address,
+      amount,
+      paymentType: "Online",
+      isPaid: true,
+    });
+
+    // Stripe gateway initialize
+const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+
+//create line item for stripe
+
+const line_items = productData.map((item)=>{
+  return {
+    price_data: {
+      currency: "usd",
+      product_data: {
+        name: item.name,
+      },
+      unit_amount: Math.floor(item.price * item.price * 0.02) * 100,
+    },
+    quantity: item.quantity,
+  };
+});
+    res
+      .status(201)
+      .json({ message: "Order placed successfully", success: true });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 
 // oredr details for individual user :/api/order/user
 export const getUserOrders = async (req, res) => {
