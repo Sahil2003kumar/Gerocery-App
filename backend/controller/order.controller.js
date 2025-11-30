@@ -64,7 +64,7 @@ export const placeOrderStripe = async (req, res) => {
 
     // Add tex charfe 2%
     amount += Math.floor((amount * 2) / 100);
-    await Order.create({
+   const order = await Order.create({
       userId,
       items,
       address,
@@ -90,9 +90,20 @@ const line_items = productData.map((item)=>{
     quantity: item.quantity,
   };
 });
+// create session 
+const session = await stripeInstance.checkout.sessions.create({
+  line_items,
+  mode:"payment",
+  success_url: `${origin}/loader?next=/my-orders`,
+  cancel_url: `${origin}/cart`,
+  metadata: {
+    orderId: order._id,
+    userId,
+  },
+});
     res
       .status(201)
-      .json({ message: "Order placed successfully", success: true });
+      .json({ message: "Order placed successfully", success: true, url: session.url, });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
