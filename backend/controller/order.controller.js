@@ -94,7 +94,7 @@ const line_items = productData.map((item)=>{
 const session = await stripeInstance.checkout.sessions.create({
   line_items,
   mode:"payment",
-  success_url: `${origin}/loader?next=/my-orders`,
+  success_url: `${origin}/loader?next=my-orders`,
   cancel_url: `${origin}/cart`,
   metadata: {
     orderId: order._id.toString(),

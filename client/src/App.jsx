@@ -6,7 +6,9 @@ import Cart from "./pages/Cart";
 import Navbar from "./components/Navbar";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
-import { useAppContext } from "./context/appContext";
+import { useAppContext } from "./context/AppContext";
+
+// import { useAppContext } from "./context/appContext";
 import Auth from "./modals/Auth";
 import ProductCategory from "./pages/ProductCategory";
 import Address from "./pages/Address";
@@ -16,6 +18,7 @@ import SellerLayout from "./pages/seller/SellerLayout";
 import AddProduct from "./pages/seller/AddProduct";
 import ProductList from "./pages/seller/ProductList";
 import Orders from "./pages/seller/Orders";
+import Loading from "./components/Loading";
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin, isSeller } = useAppContext();
@@ -35,6 +38,7 @@ const App = () => {
           <Route path="/cart" element={<Cart />} />
           <Route path="/add-address" element={<Address />} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/loader" element={<Loading />} />
           <Route
             path="/seller"
             element={isSeller ? <SellerLayout /> : <SellerLogin />}
