@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useAppContext } from "../context/appContext";
 import { toast } from "react-hot-toast";
+import { useAppContext } from "../context/AppContext";
 const Auth = () => {
   const [state, setState] = useState("login");
   const [name, setName] = useState("");
