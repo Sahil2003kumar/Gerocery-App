@@ -97,7 +97,7 @@ const session = await stripeInstance.checkout.sessions.create({
   success_url: `${origin}/loader?next=/my-orders`,
   cancel_url: `${origin}/cart`,
   metadata: {
-    orderId: order._id,
+    orderId: order._id.toString(),
     userId,
   },
 });
