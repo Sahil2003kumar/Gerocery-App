@@ -17,8 +17,10 @@ const app = express();
 
 await connectCloudinary();
 // allow multiple origins
-const allowedOrigins = ["http://localhost:5173",
-  "https://gerocery-app.vercel.app"
+const allowedOrigins = [
+  "https://gerocery-app.vercel.app",
+  "http://localhost:5173",
+  
 ];
 //middlewares
 app.use(cors({ origin: allowedOrigins, credentials: true }));
