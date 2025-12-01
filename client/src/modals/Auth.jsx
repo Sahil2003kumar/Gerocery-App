@@ -11,7 +11,7 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const { data } = await axios.post(`/api/user/${state}`, {
+      const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/${state}`, {
         name,
         email,
         password,
