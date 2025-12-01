@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
 export const authSeller = async (req, res, next) => {
+  console.log("VERIFY SECRET:", process.env.JWT_SECRET);
+
   const { sellerToken } = req.cookies;
   if (!sellerToken) { 
     return res.status(401).json({ message: "Unauthorized", success: false });

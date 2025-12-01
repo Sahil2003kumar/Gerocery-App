@@ -22,6 +22,7 @@ export const AppContextProvider = ({ children }) => {
       const { data } = await axios.get("/api/seller/is-auth");
       if (data.success) {
         setIsSeller(true);
+         return data.success;  
       } else {
         setIsSeller(false);
       }
@@ -111,11 +112,37 @@ export const AppContextProvider = ({ children }) => {
       setCartItems(cartData);
     }
   };
-  useEffect(() => {
-    fetchSeller();
+  // useEffect(() => {
+  //   fetchSeller();
+  //   fetchProducts();
+  //   fetchUser();
+  // }, []);
+
+//   useEffect(() => {
+//   fetchSeller();
+//   fetchProducts();
+// }, []);
+
+// useEffect(() => {
+//   if (!isSeller) {
+//     fetchUser();
+//   }
+// }, [isSeller]);
+
+useEffect(() => {
+  const init = async () => {
+    const seller = await fetchSeller();  // wait until seller checked
     fetchProducts();
-    fetchUser();
-  }, []);
+
+    if (!seller) {
+      fetchUser();   // only call user API if NOT a seller
+    }
+  };
+
+  init();
+}, []);
+
+
 
   // update database cart items
   useEffect(() => {
