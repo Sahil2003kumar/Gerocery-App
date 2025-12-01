@@ -17,6 +17,8 @@ const SellerLogin = () => {
       const { data } = await axios.post("/api/seller/login", {
         email,
         password,
+      }, {
+        withCredentials: true, // <-- Ye add karo
       });
       if (data.success) {
         setIsSeller(true);

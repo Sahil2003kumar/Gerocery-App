@@ -15,6 +15,8 @@ const Auth = () => {
         name,
         email,
         password,
+      }, {
+        withCredentials: true, // <-- Ye add karo
       });
       if (data.success) {
         toast.success(data.message);
