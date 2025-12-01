@@ -19,7 +19,7 @@ const SingleProduct = () => {
       setRelatedProducts(productsCopy.slice(0, 5));
     }
   }, [products]);
-
+//h
   useEffect(() => {
     setThumbnail(product?.image[0] ? product.image[0] : null);
   }, [product]);
