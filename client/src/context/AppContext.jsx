@@ -30,7 +30,7 @@ export const AppContextProvider = ({ children }) => {
       setIsSeller(false);
     }
   };
-
+//donning commit
   // fetch user auth status ,user Data and cart items
   const fetchUser = async () => {
     try {
