@@ -15,7 +15,7 @@ export const addAddress = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
+//ssssss
 //get address:// /api/address/get
 export const getAddress = async (req, res) => {
   try {
@@ -26,4 +26,3 @@ export const getAddress = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-//eee
